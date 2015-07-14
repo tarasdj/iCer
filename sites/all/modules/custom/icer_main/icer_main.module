@@ -1,0 +1,145 @@
+<?php
+
+/**
+*Implements hook_menu
+*/
+function icer_main_menu() {
+
+  $items['custom_front'] = array(
+    'title' => t('Home Page'),
+    'page callback' => 'icer_main_home_page_callback',
+    'type' => MENU_NORMAL_ITEM,
+    'access callback' => TRUE,
+    'options' => array('attributes' => array('class' => array('menu__item', 'frontpage'))),
+  );
+
+  $items['user/account/%'] = array(
+    'title' => t('Edit User Acount'),
+    'page callback' => 'icer_main_account_callback',
+    'access callback' => TRUE,
+    'page arguments' => array(2),
+    'options' => array('attributes' => array('class' => array('menu__item', 'edit-user'))),
+  );
+
+  return $items;
+}
+
+function icer_main_home_page_callback(){
+  return 'home';
+}
+
+function icer_main_account_callback($uid_from_url){
+
+  global $user;
+  $uid = $user->uid;  
+
+  if ($uid == $uid_from_url):
+    $block = module_invoke('views', 'block_view', 'account-block');
+    return render($block['content']);
+  else:
+    drupal_not_found();
+  endif; 
+
+}
+
+
+
+/**
+* Implements hook_form_FORM_ID_alter
+**/
+
+function icer_main_form_user_login_block_alter(&$form, &$form_state, $form_id) {
+  // Modification for the form with the given form ID goes here. For example, if
+  // FORM_ID is "user_register_form" this code would run only on the user
+  // registration form.
+
+  // Add a checkbox to registration form about agreeing to terms of use.
+  dpm($form);
+  //$form['links']['#markup'] = '';
+}
+
+/**
+* Implements custom blocks
+**/
+
+function icer_main_block_info() {
+
+  $blocks['user_button_top'] = array(
+    'info' => t('User buttons on top site'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
+  return $blocks;
+}
+
+function icer_main_block_view($delta = '') {
+
+  $block = array();
+
+  $image = theme(
+    'image', 
+    array(
+      'path' => drupal_get_path('theme', 'iCer') . '/files/img/Button-Add-blue-48.png',
+      'attributes' => array('class' => 'user-buttons'),              
+    )
+  );
+
+  $link = '#';
+
+  switch ($delta) {
+  case 'user_button_top':
+    $block['subject'] = t('User Top Buttons');
+    if (user_is_logged_in()):
+      global $user;
+      $uid = $user->uid;
+      $block['content'] = array(
+        '#theme' => 'user_button_top_theme',
+        '#user_login_image' => $image,
+        '#user_login_link' => $GLOBALS['base_path']. 'user/logout',
+        '#profil_image' => $image,
+        '#profil_link' => $GLOBALS['base_path']. 'user/account/'.$uid,
+        '#message_image' => $image,
+        '#message_link' => $link,
+        '#checkout_image' => $image,
+        '#checkout_link' => $link,
+        '#add_skils_image' => $image,
+        '#add_skils_link' => $link,
+      );
+    else:
+      $block['content'] = array(
+        '#theme' => 'user_button_top_theme',
+        '#user_login_image' => $image,
+        '#user_login_link' => $GLOBALS['base_path']. 'user',
+      );
+    endif;  
+  break;
+
+  };
+
+  return $block;
+
+} 
+
+function icer_main_theme() {
+
+  $themes = array();
+
+  $themes['user_button_top_theme'] = array(
+    'variables' => array(
+      'user_login_image' => NULL,
+      'user_login_link' => NULL,
+      'profil_image' => NULL,
+      'profil_link' => NULL,
+      'message_image' => NULL,
+      'message_link' => NULL,
+      'checkout_image' => NULL,
+      'checkout_link' => NULL,
+      'add_skils_image' => NULL,
+      'add_skils_link' => NULL,
+    ),
+
+    'template' => 'user_button_top',
+  );
+
+  return $themes;
+}   

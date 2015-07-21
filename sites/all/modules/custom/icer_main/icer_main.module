@@ -76,14 +76,6 @@ function icer_main_block_view($delta = '') {
 
   $block = array();
 
-  $image = theme(
-    'image', 
-    array(
-      'path' => drupal_get_path('theme', 'iCer') . '/files/img/Button-Add-blue-48.png',
-      'attributes' => array('class' => 'user-buttons'),              
-    )
-  );
-
   $link = '#';
 
   switch ($delta) {
@@ -94,22 +86,19 @@ function icer_main_block_view($delta = '') {
       $uid = $user->uid;
       $block['content'] = array(
         '#theme' => 'user_button_top_theme',
-        '#user_login_image' => $image,
+        '#flag_display_item' => TRUE,
         '#user_login_link' => $GLOBALS['base_path']. 'user/logout',
-        '#profil_image' => $image,
         '#profil_link' => $GLOBALS['base_path']. 'user/account/'.$uid,
-        '#message_image' => $image,
         '#message_link' => $link,
-        '#checkout_image' => $image,
         '#checkout_link' => $link,
-        '#add_skils_image' => $image,
-        '#add_skils_link' => $link,
+        '#add_skils_link' => $link,        
       );
     else:
       $block['content'] = array(
+        '#flag_display_item' => FALSE,
         '#theme' => 'user_button_top_theme',
-        '#user_login_image' => $image,
-        '#user_login_link' => $GLOBALS['base_path']. 'user',
+        '#user_login_image' => 'fa-power-off',
+        '#user_login_link' => $GLOBALS['base_path']. 'user',        
       );
     endif;  
   break;
@@ -126,16 +115,12 @@ function icer_main_theme() {
 
   $themes['user_button_top_theme'] = array(
     'variables' => array(
-      'user_login_image' => NULL,
       'user_login_link' => NULL,
-      'profil_image' => NULL,
       'profil_link' => NULL,
-      'message_image' => NULL,
       'message_link' => NULL,
-      'checkout_image' => NULL,
       'checkout_link' => NULL,
-      'add_skils_image' => NULL,
       'add_skils_link' => NULL,
+      'flag_display_item' => NULL,
     ),
 
     'template' => 'user_button_top',

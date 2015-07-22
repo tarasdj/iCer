@@ -5,14 +5,6 @@
 */
 function icer_main_menu() {
 
-  $items['custom_front'] = array(
-    'title' => t('Home Page'),
-    'page callback' => 'icer_main_home_page_callback',
-    'type' => MENU_NORMAL_ITEM,
-    'access callback' => TRUE,
-    'options' => array('attributes' => array('class' => array('menu__item', 'frontpage'))),
-  );
-
   $items['user/account/%'] = array(
     'title' => t('Edit User Acount'),
     'page callback' => 'icer_main_account_callback',
@@ -21,11 +13,13 @@ function icer_main_menu() {
     'options' => array('attributes' => array('class' => array('menu__item', 'edit-user'))),
   );
 
-  return $items;
-}
+  $items['test-link'] = array(
+    'title' => t('For test somecode'),
+    'page callback' => 'icer_main_test_callback',
+    'access callback' => TRUE,
+  );
 
-function icer_main_home_page_callback(){
-  return 'home';
+  return $items;
 }
 
 function icer_main_account_callback($uid_from_url){
@@ -42,6 +36,20 @@ function icer_main_account_callback($uid_from_url){
 
 }
 
+function icer_main_test_callback (){  
+
+  /*$editor_role = user_role_load_by_name('administrator'); 
+  $editor_rid = $editor_role->rid;
+  // Define our 'editor' role permissions
+  $editor_permissions = array(
+    'legal' => TRUE, // Grant permission
+    'contributor' => TRUE, // Revoke permission
+  );
+  // Grant permissions to our 'editor' role
+  user_role_change_permissions($editor_rid, $editor_permissions);*/
+
+  return 'Hello test';
+}
 
 
 /**
@@ -54,7 +62,7 @@ function icer_main_form_user_login_block_alter(&$form, &$form_state, $form_id) {
   // registration form.
 
   // Add a checkbox to registration form about agreeing to terms of use.
-  dpm($form);
+  //dpm($form);
   //$form['links']['#markup'] = '';
 }
 
@@ -90,7 +98,7 @@ function icer_main_block_view($delta = '') {
         '#theme' => 'user_button_top_theme',
         '#flag_display_item' => TRUE,
         '#user_login_link' => $GLOBALS['base_path']. 'user/logout',
-        '#profil_link' => $GLOBALS['base_path']. 'user/account/'.$uid,
+        '#profil_link' => $GLOBALS['base_path']. 'user',
         '#message_link' => $link,
         '#checkout_link' => $link,
         '#add_skils_link' => $link,   
@@ -133,4 +141,26 @@ function icer_main_theme() {
   );
 
   return $themes;
-}  
+}
+
+/* 
+* Implements hook_permission. Permissions use in module 
+ 
+
+function icer_main_permission() {
+
+  return array(
+  
+  'legal' => array(
+      'title' => t('Legal Person(check) and Natural Person(uncheck)'),
+      'description' => t('Separate user to Legal Person and Natural Person'),
+    ),
+
+  'contributor' => array(
+    'title' => t('Contributor'),
+      'description' => t('Separate contributor(check) or Search(uncheck)'), 
+  ),
+
+  );
+
+}*/ 

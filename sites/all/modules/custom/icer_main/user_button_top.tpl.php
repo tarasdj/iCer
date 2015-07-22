@@ -14,19 +14,23 @@
 
 <?php if ($flag_display_item): ?>
   <div class="user-button-item">
+    <?php if ($count_message > 0): ?>
+      <div class="count"><?php print $count_message; ?></div>
+    <?php endif; ?>
     <a href="<?php print $message_link; ?>">
       <i class="fa fa-envelope"></i>    
-    </a>
-    <div class="count"><?php print $count_message; ?></div>
+    </a>    
   </div>
 <?php endif; ?>
 
 <?php if ($flag_display_item): ?>
   <div class="user-button-item">
+    <?php if ($count_checkout > 0): ?>
+      <div class="count"><?php print $count_checkout; ?></div>
+    <?php endif; ?>
     <a href="<?php print $checkout_link; ?>">
       <i class="fa fa-shopping-cart"></i>
-    </a>
-    <div class="count"><?php print $count_checkout; ?></div>
+    </a>    
   </div>
 <?php endif; ?>
 

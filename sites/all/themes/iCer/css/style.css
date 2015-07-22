@@ -9,6 +9,7 @@
   border: 1px solid #c7c7c7;
   padding: 8px;
   border-radius: 20px;
+  position: relative;
 }
 
 .block-icer-main {
@@ -27,4 +28,16 @@
 
 #navbar {
   padding: 10px;
+}
+
+.count {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: #05AD48;
+  border: 1px solid #000;
+  color: #fff;
+  padding: 0px 5px;
+  z-index: 999;
+  border-radius: 6px;
 }

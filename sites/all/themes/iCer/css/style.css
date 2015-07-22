@@ -5,8 +5,26 @@
 
 .user-button-item {
   float: right;
+  margin-right: 10px;
+  border: 1px solid #c7c7c7;
+  padding: 8px;
+  border-radius: 20px;
 }
 
 .block-icer-main {
   float: right;
+}
+
+.view-front > div > div,
+.view-subgroup > div > div {
+  display: inline-block;
+  margin-right: 20px; 
+}
+
+.fa {
+  font-size: 30px;
+}
+
+#navbar {
+  padding: 10px;
 }
